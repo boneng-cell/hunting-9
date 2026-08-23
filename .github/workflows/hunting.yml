@@ -1,0 +1,36 @@
+name: Run OpenCode with Prompt
+
+on:
+  push:
+    paths:
+      - 'prompt.txt'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install and Run OpenCode
+        run: |
+          curl -fsSL https://opencode.ai/install | bash
+          PROMPT=$(cat prompt.txt)
+          ~/.opencode/bin/opencode run "$PROMPT" -m opencode/x-preview-f-free --auto
+
+      - name: Upload hasil
+        uses: actions/upload-artifact@v4
+        with:
+          name: hasil_hunting
+          path: '**/*.md'
+          if-no-files-found: error

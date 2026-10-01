@@ -26,11 +26,11 @@ jobs:
         run: |
           curl -fsSL https://opencode.ai/install | bash
           PROMPT=$(cat prompt.txt)
-          ~/.opencode/bin/opencode run "$PROMPT" -m opencode/x-preview-f-free --auto
+          ~/.opencode/bin/opencode run "$PROMPT" -m opencode/ling-3.0-flash-fin-free --auto
 
       - name: Upload hasil
         uses: actions/upload-artifact@v4
         with:
           name: hasil_hunting
-          path: '**/*.md'
+          path: 'hasil/**'
           if-no-files-found: error
